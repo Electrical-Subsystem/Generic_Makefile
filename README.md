@@ -48,3 +48,13 @@ reads flash from the target device using avrdude
 ```
 
 erases target device flash
+
+
+IMPORTANT INSTRUCTION !!!:
+
+- change the permissions for compile.sh file by using,
+
+``` bash
+	chmod 755 compile.sh
+``` 
+- this will make the compile.sh file executable
