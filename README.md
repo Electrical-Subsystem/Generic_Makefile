@@ -2,7 +2,7 @@
 
 This make file has two parts
 
-- Makefile (the regilar one)
+- Makefile (the regular one)
 - compile.sh
 
 ``` bash
