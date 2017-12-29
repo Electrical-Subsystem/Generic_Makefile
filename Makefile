@@ -1,32 +1,35 @@
-PROJECT=test
-LINK=avr-objcopy
-CC=avr-gcc
-MU=atmega128
+#  The variable that are to be changed accordingly
+PROJECT :=main
+MU :=atmega128
+PROGRAMMER :=avrispmkII
+PART :=m128
 
-FILE=$(PROJECT)
 
-OBJDIR = build
- 	
-all:
-	mkdir -p $(OBJDIR)
-	# $(CC) -g -mmcu=$(MU) -Os   -c $(PROJECT).c -o $(OBJDIR)/$(PROJECT).o
-	./compile.sh 
+# Variables that are most likely to stay the same 
+MEMORY :=flash
+CC :=avr-gcc
+CFLAGS :=-g -mmcu=$(MU) -Os 
+LINK :=avr-objcopy
+OBJDIR :=build
+objects := $(patsubst %.c,$(OBJDIR)/%.o,$(wildcard *.c))
+
+
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+all: $(objects)
 	$(CC) -g -mmcu=$(MU) -Os -I ./ -o $(OBJDIR)/$(PROJECT).elf $(OBJDIR)/*.o
-	$(LINK) -j .text -j .data -O ihex $(OBJDIR)/$(PROJECT).elf $(PROJECT).hex 
+	$(LINK) -j .text -j .data -O ihex $(OBJDIR)/$(PROJECT).elf $(PROJECT).hex
 
 clean:
-	@ rm -f *.hex -R build *.elf
+	@ rm -f *.hex -R build *.elf *.o
 
-
-
-PROGRAM=avrdude
-PART=m128
-PROGRAMMER=avrispmkII
-MEMORY=flash
 program:
-	$(PROGRAM) -p $(PART) -c $(PROGRAMMER) -e -U $(MEMORY):w:$(FILE).hex 
+	$(PROGRAM) -p $(PART) -c $(PROGRAMMER) -e -U $(MEMORY):w:$(PROJECT).hex 
 
 read:
-	$(PROGRAM) -p $(PART) -c $(PROGRAMMER) -U $(MEMORY):r:$(FILE)_READ.hex:h
+	$(PROGRAM) -p $(PART) -c $(PROGRAMMER) -U $(MEMORY):r:$(PROJECT)_READ.hex:h
+
 erase:
 	$(PROGRAM) -p $(PART) -c $(PROGRAMMER) -e 
