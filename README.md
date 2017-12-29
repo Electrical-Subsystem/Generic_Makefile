@@ -1,24 +1,18 @@
 # Generic Makefile
 
-This make file has two parts
+UPDATE:
 
-- Makefile (the regular one)
-- compile.sh
-
-``` bash
-	for i in $A; do
-		$CC -g -mmcu=$MU -Os   -c $i -o $OBJDIR/${i%.c}.o
-	done
-``` 
-This part of the file take care of the custom included .c and .h files
+- The Makefile has been updated.
+- There is no need for the "compile.sh" file anymore.
+- Linking issues have been sorted
 
 ### usage
 
 - make a directory for you codes.
 - place all the codes (only .c and .h files!!) in that directory.
-- Copy the above "Makefile" and "compile.sh" files into the folder.
+- Copy the above "Makefile" into the folder.
 - Change the project variable to name of your project
-- Change the remaining variable appropriately
+- Change the remaining variables appropriately
 
 Thats it!! you are good to go..!!
 
@@ -49,12 +43,3 @@ reads flash from the target device using avrdude
 
 erases target device flash
 
-
-IMPORTANT INSTRUCTION !!!:
-
-- change the permissions for compile.sh file by using,
-
-``` bash
-	chmod 755 compile.sh
-``` 
-- this will make the compile.sh file executable
